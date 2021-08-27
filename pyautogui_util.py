@@ -22,6 +22,11 @@ def draw_binary_image(image):
     print("Position x: ", offset_x)
     print("Position y: ", offset_y)
 
+    start = input("Start drawing? [Y/n]: ")
+    if(start == 'n' or start == 'N'):
+        print("Exiting")
+        return
+
     for idx, value in np.ndenumerate(image):
         print(idx[0], idx[1], "---", value)
         if value == 0:
