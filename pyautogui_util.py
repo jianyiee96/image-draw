@@ -1,6 +1,8 @@
 import pyautogui, time
 import numpy as np 
+import keyboard
 
+pyautogui.PAUSE = 0.001
 
 def get_mouse_pos():
     print("Capturing position in 5 seconds...")
@@ -104,6 +106,7 @@ def draw2(image):
                     s = queue.pop(0)
                     x = s[0]
                     y = s[1]
+                    pyautogui.click(x=y+offset_x, y=x+offset_y)
 
                     if(x != 0 and image[x-1][y] == 0):
                         queue.append((x-1,y))
@@ -120,3 +123,7 @@ def draw2(image):
                     if(y != len(image[x])-1 and image[x][y+1] == 0):
                         queue.append((x,y+1))
                         image[x][y+1] = curr_idx
+
+                    if keyboard.is_pressed("p"):
+                        print("Paused. Press r to continue")
+                        keyboard.wait("r")

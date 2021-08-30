@@ -49,13 +49,3 @@ def group_sections(mtx):
                 bfs(mtx, curr_idx, x, y)
                 curr_idx = curr_idx + 1
                 
-
-image = cv2.imread(f"./images/bird.jpg")
-mtx = cv2_util.convert_to_binary_image(image)
-
-group_sections(mtx)
-
-    
-cv2.imshow("Input Image", mtx)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
