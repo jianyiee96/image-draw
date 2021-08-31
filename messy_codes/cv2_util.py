@@ -36,7 +36,7 @@ def crop_image(image):
     cv2.destroyAllWindows()
     return roi
 
-def convert_to_binary_image(image, treshold=150, preview=False, options=False):
+def convert_to_binary_image(image, treshold=150, preview=False, options=True):
     if preview:
         cv2.imshow('Before Binary Processing', image)
         cv2.waitKey(0)
@@ -61,9 +61,19 @@ def apply_contours(image, treshold=150, preview=False):
     image_binary = convert_to_binary_image(image, treshold, preview)
     contours, hierarchy = cv2.findContours(image=image_binary, mode=cv2.RETR_TREE, method=cv2.CHAIN_APPROX_NONE)
     image_copy = image.copy()
-    cv2.drawContours(image=image_copy, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=2, lineType=cv2.LINE_AA)
+    print(type(contours))
+    cv2.drawContours(image=image_copy, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=1, lineType=cv2.LINE_AA)
     if preview:
         cv2.imshow('Applied Contour', image_copy)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     return image_copy
+
+jpg_file = "s2.jpg"
+image = cv2.imread(f"./images/{jpg_file}")
+image2 = apply_contours(image)
+cv2.imshow("Input Image", image)
+cv2.waitKey(0)
+
+cv2.imshow("Contour Image", image2)
+cv2.waitKey(0)

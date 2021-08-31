@@ -96,6 +96,7 @@ def draw2(image):
     time.sleep(1) 
     
     curr_idx = 1
+    counter = 0
 
     for x in range(0,len(image)):
         for y in range(0,len(image[x])):
@@ -103,7 +104,12 @@ def draw2(image):
                 queue = []
                 queue.append((x,y))
                 while queue:
-                    s = queue.pop(0)
+
+                    counter = counter + 1
+                    if counter == 50:
+                        time.sleep(0.1)
+                        counter = 0
+                    s = queue.pop()
                     x = s[0]
                     y = s[1]
                     pyautogui.click(x=y+offset_x, y=x+offset_y)
