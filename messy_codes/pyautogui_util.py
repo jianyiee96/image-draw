@@ -105,10 +105,6 @@ def draw2(image):
                 queue.append((x,y))
                 while queue:
 
-                    counter = counter + 1
-                    if counter == 50:
-                        time.sleep(0.1)
-                        counter = 0
                     s = queue.pop()
                     x = s[0]
                     y = s[1]

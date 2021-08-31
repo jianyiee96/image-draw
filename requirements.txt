@@ -1,0 +1,12 @@
+#    +-+-+-+-+-+ +-+-+-+ +-+-+-+-+-+
+#     PYTHON VERSION 3.8.2 REQUIRED
+#    +-+-+-+-+-+ +-+-+-+ +-+-+-+-+-+
+#     To Install Dependencies
+# pip install -r requirements.txt 
+
+clint==0.5.1
+colorama==0.4.4
+pyfiglet==0.8.post1
+opencv-python==4.5.3.56
+pyautogui==0.9.53
+keyboard==0.13.5

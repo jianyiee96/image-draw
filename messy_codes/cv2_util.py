@@ -68,12 +68,3 @@ def apply_contours(image, treshold=150, preview=False):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
     return image_copy
-
-jpg_file = "s2.jpg"
-image = cv2.imread(f"./images/{jpg_file}")
-image2 = apply_contours(image)
-cv2.imshow("Input Image", image)
-cv2.waitKey(0)
-
-cv2.imshow("Contour Image", image2)
-cv2.waitKey(0)
