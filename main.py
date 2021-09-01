@@ -9,6 +9,7 @@ def main():
         print("\nChoose the mode that you want to use : ")
         print("""
             1 : Basic draw image
+            2 : Draw image with options
             0 : Exit"""
         )
         choice = input("\nEnter your choice : ")
@@ -17,6 +18,10 @@ def main():
             exit()
         elif choice == '1':
             draw.basic_draw()
+            print("Bye")
+            exit()
+        elif choice == '2':
+            draw.options_draw()
             print("Bye")
             exit()
 

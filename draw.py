@@ -2,6 +2,10 @@ import cv2
 import pyautogui
 import time
 import keyboard
+import math
+import sys
+import numpy as np
+
 pyautogui.PAUSE = 0.001
 
 def read_image():
@@ -10,7 +14,7 @@ def read_image():
         image_name = input("Input image name : ")
         image = cv2.imread(f"./images/{image_name}")
         if image is not None:
-            print(f"\n Loaded: '{image_name}'\n")
+            print(f"\n  Loaded: '{image_name}'\n")
             return image
         else:
             print(f"\n  Unable to find '{image_name}' \n  Try again\n")
@@ -27,11 +31,23 @@ def countdown(message, seconds):
         seconds = seconds - 1
         time.sleep(1) 
 
+def progress(count, total, status='', bar_len=55):
+    filled_len = int(round(bar_len * count / float(total)))
+
+    percents = round(100.0 * count / float(total), 1)
+    bar = '=' * filled_len + '-' * (bar_len - filled_len)
+
+    fmt = '[%s] %s%s %s' % (bar, percents, '%', status)
+    print('\b' * len(fmt), end='')  # clears the line
+    sys.stdout.write(fmt)
+    sys.stdout.flush()
+
 def get_screen_offset():
-    input("Press Enter to capture offset > ")
-    countdown("Capturing offset in {s} seconds...", 3)
+    input("Shift cursor to offset and press Enter > ")
+    countdown("Capturing offset in {s} seconds...", 2)
     x, y = pyautogui.position()
-    print(f"\n offset x: {x} y: {y}\n")
+    print(f"\n  Offset:")
+    print(f"  x: {x} y: {y}\n")
     return x, y
 
 def basic_draw():
@@ -39,14 +55,16 @@ def basic_draw():
     image = read_image()
     image = process_binary(image, 150)
     offset_x, offset_y = get_screen_offset();
-    print("Preview image")
+    print("  Previewing Image\n")
     cv2.imshow("Preview", image)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     while True:
         command = input("(D)raw or (E)xit : ")
         if(command == 'd' or command == 'D'):
-
+            size = np.count_nonzero(image==0)
+            count = 0
+            percent = 0
             input("Press Enter to start countdown > ")
             countdown("Starting in {s} seconds...", 5)
             for y in range(0,len(image)):
@@ -59,25 +77,36 @@ def basic_draw():
                             x = s[0]
                             y = s[1]
                             pyautogui.click(x=x+offset_x, y=y+offset_y)
-                            if(x != 0 and image[y-1][x] == 0):
+
+                            count = count + 1
+                            percent_buff = math.ceil(count*100 / size)
+                            if percent_buff > 100:
+                                percent_buff = 100
+                            if percent_buff > percent:
+                                percent = percent_buff
+                                progress(percent, 100, status='Drawing')
+                            
+                            if(y != 0 and image[y-1][x] == 0):
                                 queue.append((x,y-1))
                                 image[y-1][x] = 1
-                            if(y != 0 and image[y][x-1] == 0):
+                            if(x != 0 and image[y][x-1] == 0):
                                 queue.append((x-1,y))
                                 image[y][x-1] = 1
-                            if(x != len(image)-1 and image[y+1][x] == 0):
+                            if(y < len(image)-1 and image[y+1][x] == 0):
                                 queue.append((x,y+1))
                                 image[y+1][x] = 1
-                            if(y != len(image[y])-1 and image[y][x+1] == 0):
+                            if(x < len(image[y])-1 and image[y][x+1] == 0):
                                 queue.append((x+1,y))
                                 image[y][x+1] = 1
 
                             if keyboard.is_pressed("p"):
                                 print("Paused. Press 'r' to continue")
                                 keyboard.wait("r")
-            print("Done")
+            print("\nDone!")
 
             return
         elif(command == 'e' or command == 'E'):
             return
 
+def options_draw():
+    print("Not Implemented Yet!")
