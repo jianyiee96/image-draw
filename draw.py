@@ -100,7 +100,9 @@ def basic_draw():
                                 image[y][x+1] = 1
 
                             if keyboard.is_pressed("p"):
-                                print("Paused. Press 'r' to continue")
+                                print('\b' * 70, end='')  # clears the line
+                                sys.stdout.write("----------- Paused. Press 'r' to continue. -----------")
+                                sys.stdout.flush()
                                 keyboard.wait("r")
             print("\nDone!")
 
@@ -110,3 +112,10 @@ def basic_draw():
 
 def options_draw():
     print("Not Implemented Yet!")
+    
+    # TO-DD
+    # Resize
+    # Crop
+    # Adjust Treshold
+    # Restart painting
+    # Update paining ui
